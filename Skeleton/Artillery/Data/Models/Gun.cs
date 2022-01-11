@@ -12,8 +12,8 @@
         public int Id { get; set; }
 
         [ForeignKey(nameof(Manufacturer)), Required]
-        public Manufacturer Manufacturer { get; set; }
         public int ManufacturerId { get; set; }
+        public Manufacturer Manufacturer { get; set; }
 
 
         [Range(100, 1350000), Required]
@@ -31,10 +31,12 @@
         
 
         [ForeignKey(nameof(Shell)), Required]
-        public Shell Shell { get; set; }
         public int ShellId { get; set; }
 
-        public ICollection CountriesGuns { get; set; } = new List<CountryGun>();
+        public Shell Shell { get; set; }
+
+
+        public ICollection<CountryGun> CountriesGuns { get; set; } = new HashSet<CountryGun>();
 
     }
 }

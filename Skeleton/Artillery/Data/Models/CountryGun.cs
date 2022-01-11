@@ -6,12 +6,12 @@
     public class CountryGun
     {
         [ForeignKey(nameof(Country)), Required]
-        public Country Country { get; set; }
         public int CountryId { get; set; }
+        public Country Country { get; set; }
 
 
         [ForeignKey(nameof(Gun)), Required]
-        public Gun Gun { get; set; }
         public int GunId { get; set; }
+        public Gun Gun { get; set; }
     }
 }

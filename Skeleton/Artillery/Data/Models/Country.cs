@@ -17,8 +17,7 @@
         [Range(50000, 10000000),Required]
         public int ArmySize { get; set; }
 
-        public ICollection<CountryGun> CountriesGuns { get; set; } = new List<CountryGun>();
-
+        public ICollection<CountryGun> CountriesGuns { get; set; } = new HashSet<CountryGun>();
 
     }
 }

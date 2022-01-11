@@ -72,19 +72,19 @@
                 return;
             }
 
-            var disableIntegrityChecksQuery = "EXEC sp_MSforeachtable @command1='ALTER TABLE ? NOCHECK CONSTRAINT ALL'";
-            context.Database.ExecuteSqlCommand(disableIntegrityChecksQuery);
+            //var disableIntegrityChecksQuery = "EXEC sp_MSforeachtable @command1='ALTER TABLE ? NOCHECK CONSTRAINT ALL'";
+            //context.Database.ex(disableIntegrityChecksQuery);
 
-            var deleteRowsQuery = "EXEC sp_MSforeachtable @command1='SET QUOTED_IDENTIFIER ON;DELETE FROM ?'";
-            context.Database.ExecuteSqlCommand(deleteRowsQuery);
+            //var deleteRowsQuery = "EXEC sp_MSforeachtable @command1='SET QUOTED_IDENTIFIER ON;DELETE FROM ?'";
+            //context.Database.ExecuteSqlCommand(deleteRowsQuery);
 
-            var enableIntegrityChecksQuery =
-                "EXEC sp_MSforeachtable @command1='ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL'";
-            context.Database.ExecuteSqlCommand(enableIntegrityChecksQuery);
+            //var enableIntegrityChecksQuery =
+            //    "EXEC sp_MSforeachtable @command1='ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL'";
+            //context.Database.ExecuteSqlCommand(enableIntegrityChecksQuery);
 
-            var reseedQuery =
-                "EXEC sp_MSforeachtable @command1='IF OBJECT_ID(''?'') IN (SELECT OBJECT_ID FROM SYS.IDENTITY_COLUMNS) DBCC CHECKIDENT(''?'', RESEED, 0)'";
-            context.Database.ExecuteSqlCommand(reseedQuery);
+            //var reseedQuery =
+            //    "EXEC sp_MSforeachtable @command1='IF OBJECT_ID(''?'') IN (SELECT OBJECT_ID FROM SYS.IDENTITY_COLUMNS) DBCC CHECKIDENT(''?'', RESEED, 0)'";
+            //context.Database.ExecuteSqlCommand(reseedQuery);
         }
 
         private static void PrintAndExportEntityToFile(string entityOutput, string outputPath)

@@ -1,5 +1,6 @@
 ﻿namespace Artillery.Data
 {
+    using Artillery.Data.Models;
     using Microsoft.EntityFrameworkCore;
 
     public class ArtilleryContext : DbContext
@@ -8,6 +9,16 @@
 
         public ArtilleryContext(DbContextOptions options)
             : base(options) { }
+
+        public DbSet<Country> Countries { get; set; }
+
+        public DbSet<Gun> Guns { get; set; }
+
+        public DbSet<Manufacturer> Manufacturers { get; set; }
+
+        public DbSet<Shell> Shels { get; set; }
+
+        public DbSet<CountryGun> CountryGuns { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -20,7 +31,8 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<CountryGun>()
+                .HasKey(k => new { k.CountryId, k.GunId });
         }
     }
 }
