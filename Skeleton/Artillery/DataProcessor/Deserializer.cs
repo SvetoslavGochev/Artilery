@@ -3,7 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Text;
     using Artillery.Data;
+    using Artillery.Data.Models;
+    using Artillery.DataProcessor.ImportDto;
+    using Newtonsoft.Json;
+    using AutoMapper;
 
     public class Deserializer
     {
@@ -20,6 +25,7 @@
 
         public static string ImportCountries(ArtilleryContext context, string xmlString)
         {
+             
             throw new NotImplementedException();
         }
 
@@ -35,7 +41,24 @@
 
         public static string ImportGuns(ArtilleryContext context, string jsonString)
         {
-            throw new NotImplementedException();
+            var gunsDto = JsonConvert.DeserializeObject<ImportGunsDto[]>(jsonString);
+
+            var Guns = new List<Gun>();
+
+            var sb = new StringBuilder();
+
+            foreach (var gunDto in gunsDto)
+            {
+                var gun = Mapper.Map<Gun>(gunDto);   
+            }
+
+
+
+
+
+
+
+
         }
         private static bool IsValid(object obj)
         {
