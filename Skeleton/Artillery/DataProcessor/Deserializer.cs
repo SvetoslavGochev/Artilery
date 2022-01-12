@@ -12,6 +12,8 @@
     using System.Linq;
     using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
     using Artillery.Data.Models.Enums;
+    using System.Xml.Serialization;
+    using System.IO;
 
     public class Deserializer
     {
@@ -28,8 +30,28 @@
 
         public static string ImportCountries(ArtilleryContext context, string xmlString)
         {
-             
-            throw new NotImplementedException();
+
+            var xmlSerializer = new XmlSerializer(typeof(ImportCountryDto[]), new XmlRootAttribute("Songs"));
+            var countriesDto = (ImportCountryDto[])xmlSerializer.Deserialize(new StringReader(xmlString));
+
+            var countries = new List<Country>();
+            var sb  = new StringBuilder();
+
+            foreach (var countryDto in countriesDto)
+            {
+                var country = Mapper.Map<Country>(countryDto);
+                bool isValiCountry = IsValid(country);
+
+                if (isValiCountry == false)
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+                countries.Add(country);
+            }
+
+            return sb.ToString();
+
         }
 
         public static string ImportManufacturers(ArtilleryContext context, string xmlString)
@@ -39,7 +61,25 @@
 
         public static string ImportShells(ArtilleryContext context, string xmlString)
         {
-            throw new NotImplementedException();
+            var xmlSerializer = new XmlSerializer(typeof(ImportShellDto[]), new XmlRootAttribute("Shells"));
+
+            var shellssDto = (ImportShellDto[])xmlSerializer.Deserialize(new StringReader(xmlString));
+
+            var shellss = new List<Shell>();
+
+            foreach (var shellDto in shellssDto)
+            {
+                var shell = Mapper.Map<Shell>(shellDto);
+
+                bool isValidShell = IsValid(shell);
+
+                if (isValidShell == false)
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+
+            }
         }
 
         public static string ImportGuns(ArtilleryContext context, string jsonString)
