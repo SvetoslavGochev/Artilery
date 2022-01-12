@@ -24,6 +24,7 @@
 
         public int NumberBuild   { get; set; }
 
+        //[Range(1, 100000), Required]
         public int Range    { get; set; }
 
         [Required]
