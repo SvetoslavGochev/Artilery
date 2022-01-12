@@ -9,6 +9,9 @@
     using Artillery.DataProcessor.ImportDto;
     using Newtonsoft.Json;
     using AutoMapper;
+    using System.Linq;
+    using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
+    using Artillery.Data.Models.Enums;
 
     public class Deserializer
     {
@@ -43,21 +46,47 @@
         {
             var gunsDto = JsonConvert.DeserializeObject<ImportGunsDto[]>(jsonString);
 
-            var Guns = new List<Gun>();
+            var guns = new List<Gun>();
 
             var sb = new StringBuilder();
 
             foreach (var gunDto in gunsDto)
             {
+                bool isValidGenre = Enum.IsDefined(typeof(GunType), gunDto.GetType());
+
+                var shells = context.Shels.Find(gunDto.ShellId);
+                var manufacturer = context.Manufacturers.Find(gunDto.ManufacturerId);
+
+                if (isValidGenre == false || shells == null || manufacturer == null)
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+
                 var gun = Mapper.Map<Gun>(gunDto);   
+
+                var countriesGuns = gunDto.CountriesGuns.Select(x => Mapper.Map<CountryGun>(x)).ToList();
+
+                bool isValidGun = IsValid(gun);
+
+                if (isValidGun == false)
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+
+                gun.CountriesGuns = countriesGuns;
+
+                guns.Add(gun);
+
+                
             }
 
+            context.AddRange(guns);
 
+            context.SaveChanges();
 
-
-
-
-
+            return sb.ToString().TrimEnd();
 
         }
         private static bool IsValid(object obj)
