@@ -31,7 +31,8 @@
         public static string ImportCountries(ArtilleryContext context, string xmlString)
         {
 
-            var xmlSerializer = new XmlSerializer(typeof(ImportCountryDto[]), new XmlRootAttribute("Songs"));
+            var xmlSerializer = new XmlSerializer(typeof(ImportCountryDto[]), new XmlRootAttribute("Countries"));
+
             var countriesDto = (ImportCountryDto[])xmlSerializer.Deserialize(new StringReader(xmlString));
 
             var countries = new List<Country>();
@@ -40,23 +41,47 @@
             foreach (var countryDto in countriesDto)
             {
                 var country = Mapper.Map<Country>(countryDto);
-                bool isValiCountry = IsValid(country);
+                //bool isValiCountry = IsValid(country);
 
-                if (isValiCountry == false)
-                {
-                    sb.AppendLine(ErrorMessage);
-                    continue;
-                }
+                //if (isValiCountry == false)
+                //{
+                //    sb.AppendLine(ErrorMessage);
+                //    continue;
+                //}
                 countries.Add(country);
             }
-
+            ;
             return sb.ToString();
 
         }
 
         public static string ImportManufacturers(ArtilleryContext context, string xmlString)
         {
-            throw new NotImplementedException();
+            var xmlSerializer = new XmlSerializer(typeof(ImportManufacturersDto[]), new XmlRootAttribute("Manufacturers"));
+
+            var manifacturersDto = (ImportManufacturersDto[])xmlSerializer.Deserialize(new StringReader(xmlString));
+
+            var manifacturer = new List<Manufacturer>();
+
+            var sb = new StringBuilder();
+
+            foreach (var manifacturerDto in manifacturersDto)
+            {
+                var manifac = Mapper.Map<Manufacturer>(manifacturerDto);
+
+                bool isValidManifac = IsValid(manifac);
+
+                //if (isValidManifac == false)
+                //{
+                //    sb.AppendLine(ErrorMessage);
+                //    continue;
+                //}
+
+               manifacturer.Add(manifac);   
+
+            }
+
+            return sb.ToString().Trim();    
         }
 
         public static string ImportShells(ArtilleryContext context, string xmlString)
@@ -66,6 +91,8 @@
             var shellssDto = (ImportShellDto[])xmlSerializer.Deserialize(new StringReader(xmlString));
 
             var shellss = new List<Shell>();
+
+            var sb = new StringBuilder();
 
             foreach (var shellDto in shellssDto)
             {
@@ -79,7 +106,10 @@
                     continue;
                 }
 
+                shellss.Add(shell); 
             }
+
+            return  sb.ToString().Trim();   
         }
 
         public static string ImportGuns(ArtilleryContext context, string jsonString)
@@ -92,16 +122,16 @@
 
             foreach (var gunDto in gunsDto)
             {
-                bool isValidGenre = Enum.IsDefined(typeof(GunType), gunDto.GetType());
+                bool isValidGenre = Enum.IsDefined(typeof(GunType), gunDto.GetType().ToString());
 
-                var shells = context.Shels.Find(gunDto.ShellId);
-                var manufacturer = context.Manufacturers.Find(gunDto.ManufacturerId);
-
-                if (isValidGenre == false || shells == null || manufacturer == null)
+                if (isValidGenre == false)
                 {
                     sb.AppendLine(ErrorMessage);
                     continue;
                 }
+                var shells = context.Shels.Find(gunDto.ShellId);
+                var manufacturer = context.Manufacturers.Find(gunDto.ManufacturerId);
+
 
                 var gun = Mapper.Map<Gun>(gunDto);   
 
@@ -115,9 +145,9 @@
                     continue;
                 }
 
+                guns.Add(gun);
                 gun.CountriesGuns = countriesGuns;
 
-                guns.Add(gun);
 
                 
             }

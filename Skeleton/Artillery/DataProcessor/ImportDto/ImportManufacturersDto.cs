@@ -5,8 +5,16 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Xml.Serialization;
 
-    internal class ImportManufacturersDto
+    [XmlType("Manufacturer")]
+    public class ImportManufacturersDto
     {
+        [XmlElement( ElementName = "ManufacturerName ")]
+        public string ManufacturerName { get; set; }
+
+
+       [XmlElement(ElementName = "Founded")]
+        public string Founded { get; set; }
     }
 }
