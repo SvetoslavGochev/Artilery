@@ -17,7 +17,7 @@
         public string Caliber { get; set; }
 
         [JsonProperty("Guns")]
-        public ICollection<ExportGunDto> Guns{ get; set; }   
+        public ICollection<ExportGunDto> Guns { get; set; }
 
 
     }

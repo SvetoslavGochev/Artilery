@@ -7,7 +7,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    internal class ExportGunDto
+    public class ExportGunDto
     {
 
         [JsonProperty("GunType")]
@@ -22,6 +22,6 @@
         public double BarelLength { get; set;}
 
         [JsonProperty("Range")]
-        public string Range { get; set;}
+        public int Range { get; set;}
     }
 }
