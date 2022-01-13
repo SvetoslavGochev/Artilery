@@ -41,13 +41,13 @@
             foreach (var countryDto in countriesDto)
             {
                 var country = Mapper.Map<Country>(countryDto);
-                //bool isValiCountry = IsValid(country);
+                bool isValiCountry = IsValid(country);
 
-                //if (isValiCountry == false)
-                //{
-                //    sb.AppendLine(ErrorMessage);
-                //    continue;
-                //}
+                if (isValiCountry == false)
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
                 countries.Add(country);
             }
             ;
@@ -71,13 +71,13 @@
 
                 bool isValidManifac = IsValid(manifac);
 
-                //if (isValidManifac == false)
-                //{
-                //    sb.AppendLine(ErrorMessage);
-                //    continue;
-                //}
+                if (isValidManifac == false)
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
 
-               manifacturer.Add(manifac);   
+                manifacturer.Add(manifac);   
 
             }
 
